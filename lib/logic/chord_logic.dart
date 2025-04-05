@@ -1,42 +1,24 @@
+import '../models/chord_model.dart';
 import 'dart:math';
 
 class ChordLogic {
-  final List<String> naturalRoots = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-  final List<String> accidentals = ['#', 'b']; // Sharps and flats
-  final List<String> chordTypes = [
-    '', 'maj7', 'min', 'min7', '6', '9', '11', 'sus2', 'sus4', 'dim', 'aug'
-  ];
-  final List<String> inversions = ['', '1st Inversion', '2nd Inversion'];
+  static final List<String> roots = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  static final List<String> types = ['maj', 'min', '7', 'maj7', '6', '9', '11', 'dim', 'sus2', 'sus4'];
 
-  bool useFlats = false;
-  bool includeInversions = false;
-  List<String> allowedChordTypes = [];
+  static final Random _random = Random();
 
-  ChordLogic({this.useFlats = false, this.includeInversions = false, this.allowedChordTypes = const []});
+  static Chord generateRandomChord({
+    bool allowInversions = false,
+    List<String>? allowedTypes,
+    List<String>? allowedRoots,
+  }) {
+    final filteredRoots = allowedRoots ?? roots;
+    final filteredTypes = allowedTypes ?? types;
 
-  /// Generates a random chord based on the settings
-  String generateChord() {
-    Random random = Random();
+    final root = filteredRoots[_random.nextInt(filteredRoots.length)];
+    final type = filteredTypes[_random.nextInt(filteredTypes.length)];
+    final isInversion = allowInversions ? _random.nextBool() : false;
 
-    // Pick a random root
-    String root = naturalRoots[random.nextInt(naturalRoots.length)];
-
-    // Decide whether to apply an accidental
-    if (random.nextBool()) {
-      root += useFlats ? 'b' : '#';
-    }
-
-    // Pick a chord type
-    String chordType;
-    if (allowedChordTypes.isNotEmpty) {
-      chordType = allowedChordTypes[random.nextInt(allowedChordTypes.length)];
-    } else {
-      chordType = chordTypes[random.nextInt(chordTypes.length)];
-    }
-
-    // Pick an inversion if enabled
-    String inversion = includeInversions ? inversions[random.nextInt(inversions.length)] : '';
-
-    return "$root$chordType ${inversion.isNotEmpty ? '($inversion)' : ''}".trim();
+    return Chord(root: root, type: type, isInversion: isInversion);
   }
 }

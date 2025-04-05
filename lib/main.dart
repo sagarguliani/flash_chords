@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '../logic/chord_logic.dart'; // Import chord logic
+import '../models/chord_model.dart'; // Import chord model
+import '../screens/settings_screen.dart'; // Import the settings screen
 
 void main() {
   runApp(MyApp());
@@ -23,53 +26,48 @@ class FlashCardScreen extends StatefulWidget {
 }
 
 class _FlashCardScreenState extends State<FlashCardScreen> {
-  // Sample chord list (You can later replace this with your dynamic logic)
-  List<String> chordNames = [
-    "C Major",
-    "A Minor",
-    "G Major",
-    "E Minor",
-    "D Major"
-  ];
-
-  String currentChord = "";  // Variable to store the current chord to be displayed
-
-  @override
-  void initState() {
-    super.initState();
-    // Initially set a chord name
-    currentChord = chordNames[0];
-  }
+  ChordLogic chordLogic = ChordLogic();
+  Chord currentChord = Chord(name: 'C', type: 'maj');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Flash Chords'),
-        actions: <Widget>[
+        actions: [
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
-              // Implement your settings action here
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsScreen()),
+              );
             },
           ),
         ],
       ),
       body: Center(
-        child: Card(
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-          elevation: 8.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          child: Container(
-            padding: EdgeInsets.all(20),
-            height: 200, // Fixed height of the card
-            width: 300,  // Fixed width of the card
-            alignment: Alignment.center,
-            child: Text(
-              currentChord, // Display the current chord
-              style: TextStyle(fontSize: 24),
+        child: GestureDetector(
+          onTap: () {
+            setState(() {
+              currentChord = chordLogic.getRandomChord();
+            });
+          },
+          child: Card(
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+            elevation: 8.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: Container(
+              padding: EdgeInsets.all(20),
+              height: 200,
+              width: 300,
+              alignment: Alignment.center,
+              child: Text(
+                '${currentChord.name} ${currentChord.type}',
+                style: TextStyle(fontSize: 24),
+              ),
             ),
           ),
         ),
