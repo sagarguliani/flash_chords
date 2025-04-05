@@ -17,7 +17,30 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class FlashCardScreen extends StatelessWidget {
+class FlashCardScreen extends StatefulWidget {
+  @override
+  _FlashCardScreenState createState() => _FlashCardScreenState();
+}
+
+class _FlashCardScreenState extends State<FlashCardScreen> {
+  // Sample chord list (You can later replace this with your dynamic logic)
+  List<String> chordNames = [
+    "C Major",
+    "A Minor",
+    "G Major",
+    "E Minor",
+    "D Major"
+  ];
+
+  String currentChord = "";  // Variable to store the current chord to be displayed
+
+  @override
+  void initState() {
+    super.initState();
+    // Initially set a chord name
+    currentChord = chordNames[0];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,11 +64,11 @@ class FlashCardScreen extends StatelessWidget {
           ),
           child: Container(
             padding: EdgeInsets.all(20),
-            height: 200, // Set a fixed height to control the size of the card
-            width: 300,  // Set a fixed width for the card
+            height: 200, // Fixed height of the card
+            width: 300,  // Fixed width of the card
             alignment: Alignment.center,
             child: Text(
-              'Chord Name Here', // This will display your chord name
+              currentChord, // Display the current chord
               style: TextStyle(fontSize: 24),
             ),
           ),
