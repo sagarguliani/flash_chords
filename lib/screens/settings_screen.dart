@@ -9,8 +9,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool showInversions = false;
   bool showSharps = true;
   bool showFlats = true;
-  String selectedKey = 'C'; // Default selected key
-  String chordType = 'maj'; // Default chord type
+  String selectedKey = 'C';
+  String chordType = 'maj';
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: <Widget>[
-            // Chord Type Selector
             ListTile(
               title: Text('Chord Type'),
               trailing: DropdownButton<String>(
@@ -41,7 +40,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 }).toList(),
               ),
             ),
-            // Show Inversions
             ListTile(
               title: Text('Show Inversions'),
               trailing: Switch(
@@ -53,7 +51,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
               ),
             ),
-            // Show Sharps
             ListTile(
               title: Text('Show Sharps'),
               trailing: Switch(
@@ -65,7 +62,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
               ),
             ),
-            // Show Flats
             ListTile(
               title: Text('Show Flats'),
               trailing: Switch(
@@ -77,7 +73,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
               ),
             ),
-            // Key Selection
             ListTile(
               title: Text('Key'),
               trailing: DropdownButton<String>(
@@ -87,8 +82,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     selectedKey = newValue!;
                   });
                 },
-                items: <String>['C', 'D', 'E', 'F', 'G', 'A', 'B']
-                    .map<DropdownMenuItem<String>>((String value) {
+                items: <String>[
+                  'C', 'C#', 'D', 'D#', 'E', 'F',
+                  'F#', 'G', 'G#', 'A', 'A#', 'B'
+                ].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),

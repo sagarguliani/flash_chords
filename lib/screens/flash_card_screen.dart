@@ -1,18 +1,25 @@
+import 'package:flutter/material.dart';
+import '../logic/chord_logic.dart';
+import '../models/chord_model.dart';
+import 'settings_screen.dart';
+
+class FlashCardScreen extends StatefulWidget {
+  @override
+  _FlashCardScreenState createState() => _FlashCardScreenState();
+}
+
 class _FlashCardScreenState extends State<FlashCardScreen> {
-  int currentChordIndex = 0;
+  late Chord currentChord;
 
-  final List<String> chords = [
-    'C Major',
-    'A Minor',
-    'D Major',
-    'G7',
-    'E7',
-    'F Major',
-  ];
+  @override
+  void initState() {
+    super.initState();
+    currentChord = ChordLogic.generateRandomChord();
+  }
 
-  void nextChord() {
+  void _generateNewChord() {
     setState(() {
-      currentChordIndex = (currentChordIndex + 1) % chords.length;
+      currentChord = ChordLogic.generateRandomChord();
     });
   }
 
@@ -34,31 +41,23 @@ class _FlashCardScreenState extends State<FlashCardScreen> {
         ],
       ),
       body: Center(
-        child: Card(
-          elevation: 8.0,
-          margin: EdgeInsets.all(16.0),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0), // Rounded corners for style
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  chords[currentChordIndex],
-                  style: TextStyle(
-                    fontSize: 36.0, // Reduced font size for a smaller card
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: nextChord,
-                  child: Text('Next Chord'),
-                ),
-              ],
+        child: GestureDetector(
+          onTap: _generateNewChord,
+          child: Card(
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+            elevation: 8.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: Container(
+              padding: EdgeInsets.all(20),
+              height: 200,
+              width: 300,
+              alignment: Alignment.center,
+              child: Text(
+                currentChord.toString(),
+                style: TextStyle(fontSize: 24),
+              ),
             ),
           ),
         ),
