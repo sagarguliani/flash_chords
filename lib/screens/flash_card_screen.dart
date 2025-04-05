@@ -1,25 +1,3 @@
-import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flash Chords',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: FlashCardScreen(),
-    );
-  }
-}
-
-class FlashCardScreen extends StatefulWidget {
-  @override
-  _FlashCardScreenState createState() => _FlashCardScreenState();
-}
-
 class _FlashCardScreenState extends State<FlashCardScreen> {
   int currentChordIndex = 0;
 
@@ -59,15 +37,18 @@ class _FlashCardScreenState extends State<FlashCardScreen> {
         child: Card(
           elevation: 8.0,
           margin: EdgeInsets.all(16.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0), // Rounded corners for style
+          ),
           child: Padding(
-            padding: EdgeInsets.all(32.0),
+            padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   chords[currentChordIndex],
                   style: TextStyle(
-                    fontSize: 48.0,
+                    fontSize: 36.0, // Reduced font size for a smaller card
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
